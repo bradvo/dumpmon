@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 helper.py - provides misc. helper functions
 Author: Jordan
@@ -8,23 +9,31 @@ import requests
 import settings
 from time import sleep, strftime
 import logging
+import os.path
+from datetime import datetime
 
 
-r = requests.Session()
+#r = requests.Session()
 
 
-def download(url, headers=None):
+def download(url, r, headers={'User-agent': 'Mozilla/5.0'}):
     if not headers:
-        headers = None
+        headers = {'User-agent': 'Mozilla/5.0'}
     if headers:
         r.headers.update(headers)
+    #print r.headers
     try:
         response = r.get(url).text
     except requests.ConnectionError:
         logging.warn('[!] Critical Error - Cannot connect to site')
         sleep(5)
         logging.warn('[!] Retrying...')
-        response = download(url)
+        response = download(url, r)
+    if response == "Please refresh the page to continue...":
+        print url
+        print response
+        sleep(5)
+        response = download(url, r)
     return response
 
 
@@ -44,6 +53,7 @@ def build_tweet(paste):
 
     '''
     tweet = None
+    name = None
     if paste.match():
         tweet = paste.url
         if paste.type == 'db_dump':
@@ -55,7 +65,32 @@ def build_tweet(paste):
                 tweet += ' E/H: ' + str(round(
                     paste.num_emails / float(paste.num_hashes), 2))
             tweet += ' Keywords: ' + str(paste.db_keywords)
-        elif paste.type == 'google_api':
+            ### SAVE IN OUTPUT FILE ###
+            loop = True
+            name = datetime.now().strftime("%d%H%M")
+            if not os.path.isdir("saves"):
+				try:
+					os.makedirs("saves")
+				except Exception:
+					log("[ERROR] Failed creating \'saves\' directory")
+            if os.path.isfile('saves/' + name):
+                i = 0
+                while loop:
+                    if os.path.isfile('saves/' + name + '_' + str(i)):
+                        i = i + 1
+                    else:
+                        name = name + '_' + str(i)
+                        loop = False
+            with open('saves/' + name,'w') as output_file:
+                content = requests.get(paste.url)
+                output_file.write(paste.url+'\n\n')
+                output_file.write(content.text.encode('utf-8'))
+            if paste.num_emails >= settings.EMAIL_THRESHOLD:
+                log(datetime.now().strftime("(%d/%m/%Y) [%H:%M:%S]") + " Emails found: " + str(paste.num_emails) + " ---> Saving in file " + name)
+            elif paste.num_hashes >= settings.HASH_THRESHOLD:
+                log(datetime.now().strftime("(%d/%m/%Y) [%H:%M:%S]") + " Possible hashes found: " + str(paste.num_hashes) + " ---> Saving in file " + name)
+            ###########################
+        ''' elif paste.type == 'google_api':
             tweet += ' Found possible Google API key(s)'
         elif paste.type in ['cisco', 'juniper']:
             tweet += ' Possible ' + paste.type + ' configuration'
@@ -65,7 +100,8 @@ def build_tweet(paste):
             tweet += ' Dionaea Honeypot Log'
         elif paste.type == 'pgp_private':
             tweet += ' Found possible PGP Private Key'
-        tweet += ' #infoleak'
-    if paste.num_emails > 0:
-        print(paste.emails)
+        tweet += ' #infoleak' '''
+
+    if not name and paste.num_emails > 0:
+        log(datetime.now().strftime("(%d/%m/%Y) [%H:%M:%S]") + " Emails found: " + str(paste.num_emails))
     return tweet

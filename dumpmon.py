@@ -36,10 +36,14 @@ def monitor():
     logging.basicConfig(
         format='%(asctime)s [%(levelname)s] %(message)s', filename=log_file, level=level)
     logging.info('Monitoring...')
-    bot = Twitter(
+    ### To enable tweets, uncomment the following lines ###
+    '''bot = Twitter(
         auth=OAuth(ACCESS_TOKEN, ACCESS_TOKEN_SECRET,
             CONSUMER_KEY, CONSUMER_SECRET)
-        )
+        )'''
+    ### And delete the next ones ###
+    bot = None
+    ##########
     # Create lock for both output log and tweet action
     log_lock = threading.Lock()
     tweet_lock = threading.Lock()

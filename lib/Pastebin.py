@@ -53,4 +53,5 @@ class Pastebin(Site):
             logging.info('Adding URL: ' + entry.url)
             self.put(entry)
     def get_paste_text(self, paste):
-        return helper.download(paste.url)
+        #sleep(3)
+        return helper.download(paste.url, self.session)

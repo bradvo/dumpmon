@@ -2,10 +2,10 @@ from Queue import Queue
 import requests
 import time
 import re
-from pymongo import MongoClient
+#from pymongo import MongoClient
 from requests import ConnectionError
 from twitter import TwitterError
-from settings import USE_DB, DB_HOST, DB_PORT
+from settings import USE_TW, USE_DB, DB_HOST, DB_PORT
 import logging
 import helper
 
@@ -91,10 +91,12 @@ class Site(object):
                                 'db_keywords' : paste.db_keywords,
                                 'url' : paste.url
                                })
-                        try:
-                            bot.statuses.update(status=tweet)
-                        except TwitterError:
-                            pass
+                        if USE_TW:
+                            try:
+                                bot.statuses.update(status=tweet)
+                            except TwitterError:
+                                print "Twitter error!!"
+                                pass
             self.update()
             while self.empty():
                 logging.debug('[*] No results... sleeping')

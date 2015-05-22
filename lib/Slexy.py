@@ -6,12 +6,13 @@ from time import sleep
 from settings import SLEEP_SLEXY
 from twitter import TwitterError
 import logging
+import requests
 
 
 class SlexyPaste(Paste):
     def __init__(self, id):
         self.id = id
-        self.headers = {'Referer': 'http://slexy.org/view/' + self.id}
+        self.headers = {'Referer': 'http://slexy.org/view/' + self.id, 'User-agent': 'Mozilla/5.0'}
         self.url = 'http://slexy.org/raw/' + self.id
         super(SlexyPaste, self).__init__()
 
@@ -23,12 +24,13 @@ class Slexy(Site):
         self.ref_id = last_id
         self.BASE_URL = 'http://slexy.org'
         self.sleep = SLEEP_SLEXY
+        self.session = requests.Session()
         super(Slexy, self).__init__()
 
     def update(self):
         '''update(self) - Fill Queue with new Slexy IDs'''
         logging.info('[*] Retrieving Slexy ID\'s')
-        results = BeautifulSoup(helper.download(self.BASE_URL + '/recent')).find_all(
+        results = BeautifulSoup(helper.download(self.BASE_URL + '/recent', self.session)).find_all(
             lambda tag: tag.name == 'td' and tag.a and '/view/' in tag.a['href'])
         new_pastes = []
         if not self.ref_id:
@@ -44,4 +46,4 @@ class Slexy(Site):
             self.put(entry)
 
     def get_paste_text(self, paste):
-        return helper.download(paste.url, paste.headers)
+        return helper.download(paste.url, self.session, paste.headers)

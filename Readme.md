@@ -1,4 +1,13 @@
-![Dumpmon Logo](assets/logo-small.png?raw=true)
+# Modified dumpmon by Asif A. Khan
+
+- Connections: modified the handling of connections.
+- Disabled Twitter usage: no tweet is published, there are guides in the code to reactivate it.
+- Save in output files: instead of tweeting, relevant info is saved into the "saved" folder.
+
+
+## Originally created by:
+
+![Dumpmon Logo](assets/logo-small.png)
 # dumpmon
 ## Twitter-bot ([@dumpmon](http://twitter.com/dumpmon)) which monitors paste sites for interesting content
 
