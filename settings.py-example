@@ -1,0 +1,27 @@
+# settings.py
+
+# Database usage
+USE_DB = False
+DB_HOST = 'localhost'
+DB_PORT = 27017
+
+# Twitter Settings
+USE_TW = False
+CONSUMER_KEY = None
+CONSUMER_SECRET = None
+ACCESS_TOKEN = None
+ACCESS_TOKEN_SECRET = None
+
+# Thresholds
+EMAIL_THRESHOLD = 10
+HASH_THRESHOLD = 30
+DB_KEYWORDS_THRESHOLD = .55
+
+# Time to Sleep for each site
+SLEEP_SLEXY = 60
+SLEEP_PASTEBIN = 15
+SLEEP_PASTIE = 30
+
+# Other configuration
+tweet_history = "tweet.history"
+log_file = "output.log"
