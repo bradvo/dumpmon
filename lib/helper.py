@@ -11,6 +11,9 @@ from time import sleep, strftime
 import logging
 import os.path
 from datetime import datetime
+import re
+import urllib2
+from bs4 import BeautifulSoup
 
 
 #r = requests.Session()
@@ -83,7 +86,18 @@ def build_tweet(paste):
                         loop = False
             with open('saves/' + name,'w') as output_file:
                 content = requests.get(paste.url)
-                output_file.write(paste.url+'\n\n')
+                if 'pastebin' in paste.url:
+                    url = re.sub('raw\.php\?i\=', '', paste.url)
+                    print url
+                elif 'pastie' in paste.url:
+                    url = paste.url[:-4]
+                elif 'slexy' in paste.url:
+                    url = re.sub('view', 'raw', paste.url)
+                else:
+                    url = paste.url
+                soup = BeautifulSoup(urllib2.urlopen(url))
+                output_file.write(url+'\n\n')
+                output_file.write(soup.title.string.encode('utf-8')+'\n\n')
                 output_file.write(content.text.encode('utf-8'))
             if paste.num_emails >= settings.EMAIL_THRESHOLD:
                 log(datetime.now().strftime("(%d/%m/%Y) [%H:%M:%S]") + " Emails found: " + str(paste.num_emails) + " ---> Saving in file " + name)
