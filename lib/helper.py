@@ -88,7 +88,6 @@ def build_tweet(paste):
                 content = requests.get(paste.url)
                 if 'pastebin' in paste.url:
                     url = re.sub('raw\.php\?i\=', '', paste.url)
-                    print url
                 elif 'pastie' in paste.url:
                     url = paste.url[:-4]
                 elif 'slexy' in paste.url:
