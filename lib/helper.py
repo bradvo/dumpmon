@@ -18,13 +18,23 @@ from bs4 import BeautifulSoup
 
 #r = requests.Session()
 
+h = {
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    'Accept-Encoding': 'gzip, deflate, sdch',
+    'Accept-Language': 'es,ca;q=0.8,en-GB;q=0.6,en;q=0.4',
+    'Cache-Control': 'max-age=0',
+    'Connection':'keep-alive',
+    'Cookie': '__cfduid=d6f3e7e313787b0622e973ce541f20f4e1426848157; OX_plg=swf|shk|pm; bm_monthly_unique=true; bm_daily_unique=true; bm_sample_frequency=1; _ga=GA1.2.1891824695.1426853594; po93jnd9j40w_ll_status=NOT_BLOCKING; bm_last_load_status=NOT_BLOCKING; country=ES',
+    'Host': 'pastebin.com',
+    'HTTPS': 1,
+    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36'
+}
 
-def download(url, r, headers={'User-agent': 'Mozilla/5.0'}):
+def download(url, r, headers=h):
     if not headers:
-        headers = {'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36','Host':'pastebin.com','Connection':'keep-alive',}
+        headers = h
     if headers:
         r.headers.update(headers)
-    #print r.headers
     try:
         response = r.get(url).text
     except requests.ConnectionError:
