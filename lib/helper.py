@@ -21,7 +21,7 @@ from bs4 import BeautifulSoup
 
 def download(url, r, headers={'User-agent': 'Mozilla/5.0'}):
     if not headers:
-        headers = {'User-agent': 'Mozilla/5.0'}
+        headers = {'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36','Host':'pastebin.com','Connection':'keep-alive',}
     if headers:
         r.headers.update(headers)
     #print r.headers
@@ -95,7 +95,7 @@ def build_tweet(paste):
                 else:
                     url = paste.url
                 soup = BeautifulSoup(urllib2.urlopen(url))
-                output_file.write(url+'\n\n')
+                output_file.write("python hacktivism.py -i "+name+" --map email password --site  --source "+url+'\n\n')
                 output_file.write(soup.title.string.encode('utf-8')+'\n\n')
                 output_file.write(content.text.encode('utf-8'))
             if paste.num_emails >= settings.EMAIL_THRESHOLD:

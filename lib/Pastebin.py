@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 from . import helper
 from time import sleep
 from settings import SLEEP_PASTEBIN
-from twitter import TwitterError
 import logging
 import requests
 

@@ -4,7 +4,6 @@ import time
 import re
 #from pymongo import MongoClient
 from requests import ConnectionError
-from twitter import TwitterError
 from settings import USE_TW, USE_DB, DB_HOST, DB_PORT
 import logging
 import helper
@@ -94,7 +93,7 @@ class Site(object):
                         if USE_TW:
                             try:
                                 bot.statuses.update(status=tweet)
-                            except TwitterError:
+                            except:
                                 print "Twitter error!!"
                                 pass
             self.update()

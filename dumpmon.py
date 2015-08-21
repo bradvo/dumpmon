@@ -14,7 +14,6 @@ from lib.Slexy import Slexy, SlexyPaste
 from lib.Pastie import Pastie, PastiePaste
 from lib.helper import log
 from time import sleep
-from twitter import Twitter, OAuth
 from settings import CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET, log_file
 import threading
 import logging
