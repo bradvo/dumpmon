@@ -35,6 +35,8 @@ t = 0
 f = 0
 
 def download(url, r, headers=None):
+    global t
+    global f
     if not headers:
         headers = None
     if headers:
