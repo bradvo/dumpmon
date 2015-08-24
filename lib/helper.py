@@ -51,7 +51,7 @@ def download(url, r, headers=None):
         response = download(url, r)
     if response == "Please refresh the page to continue...":
         f = f+1
-        p = f/t*100
+        p = float(f)/float(t)*100
         log("{0} Failed to access: {1} {2}%".format(datetime.now().strftime("%d/%m/%Y %H:%M:%S"), url, p))
         #log(datetime.now().strftime("(%d/%m/%Y) [%H:%M:%S]")+" Failed to access: "+url+" "+p+"%")
     return response
