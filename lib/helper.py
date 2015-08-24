@@ -31,6 +31,9 @@ pastebin_header = {
 h0 = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36'}
 ###
 
+t = 0
+f = 0
+
 def download(url, r, headers=None):
     if not headers:
         headers = None
@@ -38,13 +41,17 @@ def download(url, r, headers=None):
         r.headers.update(headers)
     try:
         response = r.get(url).text
+        t = t+1
     except requests.ConnectionError:
         logging.warn('[!] Critical Error - Cannot connect to site')
         sleep(5)
         logging.warn('[!] Retrying...')
         response = download(url, r)
     if response == "Please refresh the page to continue...":
-        log(datetime.now().strftime("(%d/%m/%Y) [%H:%M:%S]")+" Failed to access: "+url)
+        f = f+1
+        p = f/t*100
+        log("{0} Failed to access: {1} {2}%".format(datetime.now().strftime("%d/%m/%Y %H:%M:%S"), url, p))
+        #log(datetime.now().strftime("(%d/%m/%Y) [%H:%M:%S]")+" Failed to access: "+url+" "+p+"%")
     return response
 
 
