@@ -18,6 +18,7 @@ from settings import CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_S
 import threading
 import logging
 import sys
+import os
 
 
 def monitor():
