@@ -1,8 +1,8 @@
-# Modified dumpmon by Asif A. Khan
+# Modified dumpmon
 
-- Connections: modified the handling of connections.
-- Disabled Twitter usage: no tweet is published, there are guides in the code to reactivate it.
-- Save in output files: instead of tweeting, relevant info is saved into the "saved" folder.
+- Connections: modified how connections are handled
+- Disabled Twitter usage: no tweet is published, there are guides in the code to reactivate it
+- Save in output files: instead of tweeting, relevant info is saved into the "saved" folder
 
 
 ## Originally created by:

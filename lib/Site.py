@@ -75,7 +75,7 @@ class Site(object):
                 logging.info('[*] Checking ' + paste.url)
                 paste.text = self.get_paste_text(paste)
                 tweet = helper.build_tweet(paste)
-                if tweet:
+                '''if tweet:
                     logging.info(tweet)
                     with t_lock:
                         if USE_DB:
@@ -95,7 +95,7 @@ class Site(object):
                                 bot.statuses.update(status=tweet)
                             except:
                                 print "Twitter error!!"
-                                pass
+                                pass'''
             self.update()
             while self.empty():
                 logging.debug('[*] No results... sleeping')

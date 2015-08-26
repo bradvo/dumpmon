@@ -17,6 +17,7 @@ from time import sleep
 from settings import CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET, log_file
 import threading
 import logging
+import sys
 
 
 def monitor():
@@ -28,12 +29,12 @@ def monitor():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-v", "--verbose", help="more verbose", action="store_true")
-    args = parser.parse_args()
+    args = parser.parse_args()  
     level = logging.INFO
     if args.verbose:
         level = logging.DEBUG
     logging.basicConfig(
-        format='%(asctime)s [%(levelname)s] %(message)s', filename=log_file, level=level)
+        format='%(asctime)s [%(levelname)s] %(message)s', datefmt="%d-%m-%Y %H:%M:%S", filename=log_file, level=level)
     logging.info('Monitoring...')
     ### To enable tweets, uncomment the following lines ###
     '''bot = Twitter(
@@ -46,6 +47,13 @@ def monitor():
     # Create lock for both output log and tweet action
     log_lock = threading.Lock()
     tweet_lock = threading.Lock()
+
+    if not os.path.isdir("saves"):
+        try:
+            os.makedirs("saves")
+        except Exception:
+            logging.error("Failed to create the 'saves' directory")
+            sys.exit()
 
     pastebin_thread = threading.Thread(
         target=Pastebin().monitor, args=[bot, tweet_lock])
