@@ -9,7 +9,7 @@ import requests
 import settings
 from time import sleep, strftime
 import logging
-import os.path
+import os
 from datetime import datetime
 import re
 import urllib2
