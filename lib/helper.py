@@ -53,7 +53,7 @@ def download(url, r, headers=None):
         f = f+1
         p = float(f)/float(t)*100
         p = "{0:.2f}".format(p)
-        logging.warn("Failed to access: %s (FR: %s%%)", url, p)
+        logging.warn("Failed to access: %s (FR: %s/%s %s%%)", url, f, t, p)
     return response
 
 
