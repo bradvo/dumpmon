@@ -1,4 +1,6 @@
 from .regexes import regexes
+from time import strftime
+from datetime import datetime
 import settings
 import logging
 import re
@@ -51,6 +53,7 @@ class Paste(object):
         if (self.num_emails >= settings.EMAIL_THRESHOLD) or (self.num_hashes >= settings.HASH_THRESHOLD) or (self.db_keywords >= settings.DB_KEYWORDS_THRESHOLD):
             self.type = 'db_dump'
         #print str(self.num_emails) + " / " + str(self.num_hashes)
+        # for future use
         ''' if regexes['cisco_hash'].search(self.text) or regexes['cisco_pass'].search(self.text):
             self.type = 'cisco'
         if regexes['honeypot'].search(self.text):
@@ -65,6 +68,6 @@ class Paste(object):
         for regex in regexes['banlist']:
             if regex.search(self.text):
                 self.type = None
-                print "banlist"
+                print "{0} banlist".format(datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
                 break
         return self.type
